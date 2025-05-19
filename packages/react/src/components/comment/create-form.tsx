@@ -25,7 +25,9 @@ import { AuthButton } from "../../atom";
 
 export const CreateForm = forwardRef<
 	HTMLFormElement,
-	FormHTMLAttributes<HTMLFormElement> & { placeholder?: string }
+	FormHTMLAttributes<HTMLFormElement> & {
+		placeholder?: string;
+	}
 >(({ placeholder = "Leave comment", ...props }, ref) => {
 	const auth = useAuthContext();
 	const { page, fetcher } = useCommentsContext();

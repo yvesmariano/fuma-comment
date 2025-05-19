@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type { ComponentProps, HTMLAttributes, ReactNode } from "react";
 import { forwardRef } from "react";
 import { cn } from "./utils/cn";
 import {
@@ -26,13 +26,30 @@ interface InnerProps {
 	 * title to show when the user has not logged in.
 	 *
 	 * Fallbacks to default `title` when not specified.
+	 * @deprecated No longer used.
 	 */
 	titleUnauthorized?: ReactNode;
+
+	editor?: ComponentProps<typeof CommentsPost>;
 }
 
 export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 	(
-		{ page, className, title, storage, mention, auth, apiUrl, placeholder, noCommentsMessage, replyButtonText, repliesButtonText, ...props },
+		{
+			page,
+			className,
+			title,
+			storage,
+			editor,
+			mention,
+			auth,
+			apiUrl,
+			placeholder,
+			noCommentsMessage,
+			replyButtonText,
+			repliesButtonText,
+			...props
+		},
 		ref,
 	) => {
 		return (
@@ -51,25 +68,19 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 					ref={ref}
 					{...props}
 				>
-					<Inner title={title} placeholder={placeholder} noCommentsMessage={noCommentsMessage} />
+					<div className="relative flex flex-col gap-2">
+						{title}
+						<CommentsPost {...editor} />
+					</div>
 					<CommentsList
 						noCommentsMessage={noCommentsMessage}
 						replyButtonText={replyButtonText}
 						repliesButtonText={repliesButtonText}
-					/>
+						/>
 				</div>
 			</CommentsProvider>
 		);
 	},
 );
-
-function Inner(props: InnerProps): ReactNode {
-	return (
-		<div className="relative flex flex-col gap-2">
-			{props.title}
-			<CommentsPost placeholder={props.placeholder}/>
-		</div>
-	);
-}
 
 Comments.displayName = "Comments";
