@@ -29,14 +29,21 @@ export interface CommentListProps extends ComponentProps<"div"> {
 	threadId?: string;
 	isSubThread?: boolean;
 	components?: {
-		Comment?: FC<{ comment: SerializedComment }>;
+		Comment?: FC<{
+			comment: SerializedComment;
+			replyButtonText?: string;
+			repliesButtonText?: string;
+		}>;
 	};
+	noCommentsMessage?: string;
+	replyButtonText?: string;
+	repliesButtonText?: string;
 }
 
 const defaultComponents: Required<Required<CommentListProps>["components"]> = {
-	Comment: ({ comment }) => (
-		<Comment comment={comment} actions={<Actions canReply />}>
-			<Replies />
+	Comment: ({ comment, replyButtonText, repliesButtonText }) => (
+		<Comment comment={comment} actions={<Actions canReply replyButtonText={replyButtonText} />}>
+			<Replies repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
 		</Comment>
 	),
 };
@@ -46,6 +53,9 @@ export function CommentList({
 	threadId,
 	isSubThread = false,
 	components: _components = {},
+	noCommentsMessage = "No comments",
+	repliesButtonText = "Replies",
+	replyButtonText = "Reply",
 	...props
 }: CommentListProps) {
 	const { page, fetcher } = useCommentsContext();
@@ -75,11 +85,11 @@ export function CommentList({
 		<div ref={ref} {...props} className={cn("flex flex-col", props.className)}>
 			{!query.isLoading && cursor === undefined && list.length === 0 && (
 				<p className="mx-auto my-4 text-center text-sm text-fc-muted-foreground">
-					No comments
+					{noCommentsMessage}
 				</p>
 			)}
 			{list.map((reply) => (
-				<Comment key={reply.id} comment={reply} />
+				<Comment key={reply.id} comment={reply} repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
 			))}
 			{query.data && query.data.length >= count ? (
 				<button
@@ -104,7 +114,13 @@ export function CommentList({
 	);
 }
 
-export function Replies(): React.ReactNode {
+export function Replies({
+	repliesButtonText,
+	replyButtonText,
+}: {
+	repliesButtonText?: string;
+	replyButtonText?: string;
+}): React.ReactNode {
 	const { comment } = useCommentContext();
 	const auth = useAuthContext();
 	const isMobile = useIsMobile();
@@ -128,7 +144,7 @@ export function Replies(): React.ReactNode {
 			<ChevronDown
 				className={cn("size-4 transition-transform", open && "rotate-180")}
 			/>
-			{comment.replies} Replies
+			{comment.replies} {repliesButtonText}
 		</button>
 	);
 
@@ -144,7 +160,7 @@ export function Replies(): React.ReactNode {
 						className="flex-1 -mx-4 overflow-y-auto"
 						components={{
 							Comment: ({ comment }) => (
-								<Comment comment={comment} actions={<Actions />} />
+								<Comment comment={comment} actions={<Actions replyButtonText={replyButtonText}/>} />
 							),
 						}}
 					/>
@@ -171,7 +187,7 @@ export function Replies(): React.ReactNode {
 						Comment: ({ comment }) => (
 							<Comment
 								comment={comment}
-								actions={<Actions canReply />}
+								actions={<Actions canReply replyButtonText={replyButtonText}/>}
 								className="ml-10"
 							/>
 						),

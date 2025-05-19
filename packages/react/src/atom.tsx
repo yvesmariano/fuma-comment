@@ -78,11 +78,13 @@ export const CommentsPost = CreateForm;
 
 export const CommentsList = forwardRef<
 	HTMLDivElement,
-	HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+	HTMLAttributes<HTMLDivElement> & {
+		noCommentsMessage?: string;
+	}
+>(({ className, noCommentsMessage, ...props }, ref) => {
 	return (
 		<div className={cn("flex flex-col", className)} ref={ref} {...props}>
-			<CommentList />
+			<CommentList noCommentsMessage={noCommentsMessage} />
 		</div>
 	);
 });

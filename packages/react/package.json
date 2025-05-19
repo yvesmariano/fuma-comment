@@ -1,12 +1,18 @@
 {
-	"name": "@fuma-comment/react",
+	"name": "@yvesmariano/fuma-comment-react",
 	"version": "1.2.3",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"author": "Fuma Nama",
 	"homepage": "https://fuma-comment.vercel.app",
-	"repository": "https://github.com/fuma-nama/fuma-comment",
-	"files": ["./dist", "./css"],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fuma-nama/fuma-comment.git"
+	},
+	"files": [
+		"./dist",
+		"./css"
+	],
 	"license": "MIT",
 	"type": "module",
 	"exports": {

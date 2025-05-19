@@ -17,6 +17,10 @@ export type CommentsProps = Omit<
 
 interface InnerProps {
 	title?: ReactNode;
+	placeholder?: string;
+	noCommentsMessage?: string;
+	replyButtonText?: string;
+	repliesButtonText?: string;
 
 	/**
 	 * title to show when the user has not logged in.
@@ -28,7 +32,7 @@ interface InnerProps {
 
 export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 	(
-		{ page, className, title, storage, mention, auth, apiUrl, ...props },
+		{ page, className, title, storage, mention, auth, apiUrl, placeholder, noCommentsMessage, ...props },
 		ref,
 	) => {
 		return (
@@ -47,8 +51,8 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 					ref={ref}
 					{...props}
 				>
-					<Inner title={title} />
-					<CommentsList />
+					<Inner title={title} placeholder={placeholder} noCommentsMessage={noCommentsMessage} />
+					<CommentsList noCommentsMessage={noCommentsMessage} />
 				</div>
 			</CommentsProvider>
 		);
@@ -59,7 +63,7 @@ function Inner(props: InnerProps): ReactNode {
 	return (
 		<div className="relative flex flex-col gap-2">
 			{props.title}
-			<CommentsPost />
+			<CommentsPost placeholder={props.placeholder}/>
 		</div>
 	);
 }

@@ -26,8 +26,10 @@ const rateVariants = cva(
 
 export function Actions({
 	canReply = false,
+	replyButtonText = "Reply",
 }: {
 	canReply?: boolean;
+	replyButtonText?: string;
 }): React.ReactNode {
 	const { fetcher } = useCommentsContext();
 	const { comment, isReplying, setReply } = useCommentContext();
@@ -105,7 +107,7 @@ export function Actions({
 						onClick={() => setReply(!isReplying)}
 					>
 						<ReplyIcon className="size-4" />
-						Reply
+						{replyButtonText}
 					</button>
 				) : null}
 			</div>
