@@ -80,11 +80,17 @@ export const CommentsList = forwardRef<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement> & {
 		noCommentsMessage?: string;
+		replyButtonText?: string;
+		repliesButtonText?: string;
 	}
->(({ className, noCommentsMessage, ...props }, ref) => {
+>(({ className, noCommentsMessage, replyButtonText, repliesButtonText, ...props }, ref) => {
 	return (
 		<div className={cn("flex flex-col", className)} ref={ref} {...props}>
-			<CommentList noCommentsMessage={noCommentsMessage} />
+			<CommentList
+				noCommentsMessage={noCommentsMessage}
+				replyButtonText={replyButtonText}
+				repliesButtonText={repliesButtonText}
+			/>
 		</div>
 	);
 });

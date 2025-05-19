@@ -32,7 +32,7 @@ interface InnerProps {
 
 export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 	(
-		{ page, className, title, storage, mention, auth, apiUrl, placeholder, noCommentsMessage, ...props },
+		{ page, className, title, storage, mention, auth, apiUrl, placeholder, noCommentsMessage, replyButtonText, repliesButtonText, ...props },
 		ref,
 	) => {
 		return (
@@ -52,7 +52,11 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 					{...props}
 				>
 					<Inner title={title} placeholder={placeholder} noCommentsMessage={noCommentsMessage} />
-					<CommentsList noCommentsMessage={noCommentsMessage} />
+					<CommentsList
+						noCommentsMessage={noCommentsMessage}
+						replyButtonText={replyButtonText}
+						repliesButtonText={repliesButtonText}
+					/>
 				</div>
 			</CommentsProvider>
 		);
