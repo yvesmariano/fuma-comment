@@ -26,10 +26,14 @@ const rateVariants = cva(
 
 export function Actions({
 	canReply = false,
+	replyPlaceholder,
 	replyButtonText = "Reply",
+	replyToText = "Replying to",
 }: {
 	canReply?: boolean;
 	replyButtonText?: string;
+	replyPlaceholder?: string;
+	replyToText?: string;
 }): React.ReactNode {
 	const { fetcher } = useCommentsContext();
 	const { comment, isReplying, setReply } = useCommentContext();
@@ -118,11 +122,12 @@ export function Actions({
 						onOpenAutoFocus={(e) => e.preventDefault()}
 					>
 						<DialogTitle className="sr-only">
-							Replying to {comment.author.name}
+							{replyToText} {comment.author.name}
 						</DialogTitle>
 						<ReplyForm
 							editorRef={editorRef}
 							comment={comment}
+							placeholder={replyPlaceholder}
 							onCancel={() => setReply(false)}
 						/>
 					</DialogContent>
@@ -133,6 +138,7 @@ export function Actions({
 					className="mt-2"
 					editorRef={editorRef}
 					comment={comment}
+					placeholder={replyPlaceholder}
 					onCancel={() => setReply(false)}
 				/>
 			) : null}

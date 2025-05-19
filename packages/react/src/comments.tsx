@@ -70,7 +70,7 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 				>
 					<div className="relative flex flex-col gap-2">
 						{title}
-						<CommentsPost {...editor} />
+						<CommentsPost placeholder={placeholder}/>
 					</div>
 					<CommentsList
 						noCommentsMessage={noCommentsMessage}
