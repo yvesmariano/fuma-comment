@@ -32,6 +32,7 @@ export interface CommentListProps extends ComponentProps<"div"> {
 	components?: {
 		Comment?: FC<{
 			menu?: ComponentProps<typeof CommentMenu>;
+			todayText?: string;
 			comment: SerializedComment;
 			replyButtonText?: string;
 			repliesButtonText?: string;
@@ -40,6 +41,7 @@ export interface CommentListProps extends ComponentProps<"div"> {
 		}>;
 	};
 	menu?: ComponentProps<typeof CommentMenu>;
+	todayText?: string;
 	noCommentsMessage?: string;
 	replyButtonText?: string;
 	repliesButtonText?: string;
@@ -48,8 +50,8 @@ export interface CommentListProps extends ComponentProps<"div"> {
 }
 
 const defaultComponents: Required<Required<CommentListProps>["components"]> = {
-	Comment: ({ comment, menu, replyButtonText, repliesButtonText, replyPlaceholder, replyToText }) => (
-		<Comment comment={comment} menu={menu} actions={
+	Comment: ({ comment, menu, todayText, replyButtonText, repliesButtonText, replyPlaceholder, replyToText }) => (
+		<Comment comment={comment} menu={menu} todayText={todayText} actions={
 			<Actions
 				canReply
 				replyButtonText={replyButtonText}
@@ -59,6 +61,7 @@ const defaultComponents: Required<Required<CommentListProps>["components"]> = {
 		}>
 			<Replies
 				menu={menu}
+				todayText={todayText}
 				repliesButtonText={repliesButtonText}
 				replyButtonText={replyButtonText}
 			/>
@@ -72,6 +75,7 @@ export function CommentList({
 	isSubThread = false,
 	components: _components = {},
 	menu,
+	todayText,
 	noCommentsMessage = "No comments",
 	repliesButtonText = "Replies",
 	replyButtonText = "Reply",
@@ -110,7 +114,7 @@ export function CommentList({
 				</p>
 			)}
 			{list.map((reply) => (
-				<Comment key={reply.id} menu={menu} comment={reply} repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
+				<Comment key={reply.id} menu={menu} todayText={todayText} comment={reply} repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
 			))}
 			{query.data && query.data.length >= count ? (
 				<button
@@ -137,10 +141,12 @@ export function CommentList({
 
 export function Replies({
 	menu,
+	todayText,
 	repliesButtonText,
 	replyButtonText,
 }: {
 	menu?: ComponentProps<typeof CommentMenu>;
+	todayText?: string;
 	repliesButtonText?: string;
 	replyButtonText?: string;
 }): React.ReactNode {
@@ -183,7 +189,7 @@ export function Replies({
 						className="flex-1 -mx-4 overflow-y-auto"
 						components={{
 							Comment: ({ comment }) => (
-								<Comment comment={comment} menu={menu} actions={<Actions replyButtonText={replyButtonText}/>} />
+								<Comment comment={comment} menu={menu} todayText={todayText} actions={<Actions replyButtonText={replyButtonText}/>} />
 							),
 						}}
 					/>
@@ -209,6 +215,8 @@ export function Replies({
 					components={{
 						Comment: ({ comment }) => (
 							<Comment
+								menu={menu}
+								todayText={todayText}
 								comment={comment}
 								actions={<Actions canReply replyButtonText={replyButtonText}/>}
 								className="ml-10"

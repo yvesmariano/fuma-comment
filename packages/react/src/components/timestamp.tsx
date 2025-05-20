@@ -4,11 +4,13 @@ import { toLocalString } from "../utils/date";
 
 export function Timestamp({
 	timestamp,
-}: { timestamp: Date | string }): React.ReactNode {
+	todayText = "Today",
+}: { timestamp: Date | string; todayText?: string }): React.ReactNode {
 	const [str, setStr] = useState("");
 
 	useLayoutEffect(() => {
-		setStr(toLocalString(new Date(timestamp)));
+		const localString = toLocalString(new Date(timestamp));
+		setStr(localString.replace("Today", todayText));
 	}, [timestamp]);
 
 	return str;

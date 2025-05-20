@@ -87,8 +87,9 @@ export const CommentsList = forwardRef<
 		repliesButtonText?: string;
 		replyPlaceholder?: string;
 		replyToText?: string;
+		todayText?: string;
 	}
->(({ className, menu, noCommentsMessage, replyButtonText, repliesButtonText, replyPlaceholder, replyToText, ...props }, ref) => {
+>(({ className, menu, noCommentsMessage, replyButtonText, repliesButtonText, replyPlaceholder, replyToText, todayText, ...props }, ref) => {
 	return (
 		<div className={cn("flex flex-col", className)} ref={ref} {...props}>
 			<CommentList
@@ -98,7 +99,8 @@ export const CommentsList = forwardRef<
 				repliesButtonText={repliesButtonText}
 				replyPlaceholder={replyPlaceholder}
 				replyToText={replyToText}
-				/>
+				todayText={todayText}
+			/>
 		</div>
 	);
 });

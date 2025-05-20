@@ -24,6 +24,7 @@ interface InnerProps {
 	repliesButtonText?: string;
 	replyPlaceholder?: string;
 	replyToText?: string;
+	todayText?: string;
 
 	/**
 	 * title to show when the user has not logged in.
@@ -56,6 +57,7 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 			repliesButtonText,
 			replyPlaceholder,
 			replyToText,
+			todayText,
 			...props
 		},
 		ref,
@@ -78,7 +80,7 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 				>
 					<div className="relative flex flex-col gap-2">
 						{title}
-						<CommentsPost placeholder={placeholder}/>
+						<CommentsPost placeholder={placeholder} />
 					</div>
 					<CommentsList
 						menu={menu}
@@ -87,7 +89,8 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 						repliesButtonText={repliesButtonText}
 						replyPlaceholder={replyPlaceholder}
 						replyToText={replyToText}
-						/>
+						todayText={todayText}
+					/>
 				</div>
 			</CommentsProvider>
 		);

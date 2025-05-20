@@ -41,12 +41,14 @@ export function Comment({
 	comment: cached,
 	actions,
 	menu,
+	todayText,
 	children,
 	...props
 }: ComponentProps<"div"> & {
 	comment: SerializedComment;
 	actions?: ReactNode;
 	menu?: ComponentProps<typeof CommentMenu>;
+	todayText?: string;
 }): React.ReactElement {
 	const [isReply, setIsReply] = useState(false);
 	const editorRef = useRef<UseCommentEditor | undefined>(undefined);
@@ -81,7 +83,7 @@ export function Comment({
 					<div className="flex flex-row items-center gap-2">
 						<span className="truncate font-medium">{comment.author.name}</span>
 						<span className="text-xs text-fc-muted-foreground">
-							<Timestamp timestamp={comment.timestamp} />
+							<Timestamp timestamp={comment.timestamp} todayText={todayText} />
 						</span>
 						<CommentMenu {...menu} className="ms-auto -my-2" />
 					</div>
