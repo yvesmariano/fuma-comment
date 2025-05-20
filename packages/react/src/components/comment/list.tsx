@@ -22,6 +22,7 @@ import type { SerializedComment } from "@fuma-comment/server";
 import { ReplyForm } from "./reply-form";
 import type { Editor } from "@tiptap/react";
 import { useAuthContext } from "../../contexts/auth";
+import { CommentMenu } from "./";
 
 const count = 40;
 
@@ -30,20 +31,37 @@ export interface CommentListProps extends ComponentProps<"div"> {
 	isSubThread?: boolean;
 	components?: {
 		Comment?: FC<{
+			menu?: ComponentProps<typeof CommentMenu>;
 			comment: SerializedComment;
 			replyButtonText?: string;
 			repliesButtonText?: string;
+			replyPlaceholder?: string;
+			replyToText?: string;
 		}>;
 	};
+	menu?: ComponentProps<typeof CommentMenu>;
 	noCommentsMessage?: string;
 	replyButtonText?: string;
 	repliesButtonText?: string;
+	replyPlaceholder?: string;
+	replyToText?: string;
 }
 
 const defaultComponents: Required<Required<CommentListProps>["components"]> = {
-	Comment: ({ comment, replyButtonText, repliesButtonText }) => (
-		<Comment comment={comment} actions={<Actions canReply replyButtonText={replyButtonText} />}>
-			<Replies repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
+	Comment: ({ comment, menu, replyButtonText, repliesButtonText, replyPlaceholder, replyToText }) => (
+		<Comment comment={comment} menu={menu} actions={
+			<Actions
+				canReply
+				replyButtonText={replyButtonText}
+				replyPlaceholder={replyPlaceholder}
+				replyToText={replyToText}
+			/>
+		}>
+			<Replies
+				menu={menu}
+				repliesButtonText={repliesButtonText}
+				replyButtonText={replyButtonText}
+			/>
 		</Comment>
 	),
 };
@@ -53,9 +71,12 @@ export function CommentList({
 	threadId,
 	isSubThread = false,
 	components: _components = {},
+	menu,
 	noCommentsMessage = "No comments",
 	repliesButtonText = "Replies",
 	replyButtonText = "Reply",
+	replyPlaceholder,
+	replyToText,
 	...props
 }: CommentListProps) {
 	const { page, fetcher } = useCommentsContext();
@@ -89,7 +110,7 @@ export function CommentList({
 				</p>
 			)}
 			{list.map((reply) => (
-				<Comment key={reply.id} comment={reply} repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
+				<Comment key={reply.id} menu={menu} comment={reply} repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
 			))}
 			{query.data && query.data.length >= count ? (
 				<button
@@ -115,9 +136,11 @@ export function CommentList({
 }
 
 export function Replies({
+	menu,
 	repliesButtonText,
 	replyButtonText,
 }: {
+	menu?: ComponentProps<typeof CommentMenu>;
 	repliesButtonText?: string;
 	replyButtonText?: string;
 }): React.ReactNode {
@@ -160,7 +183,7 @@ export function Replies({
 						className="flex-1 -mx-4 overflow-y-auto"
 						components={{
 							Comment: ({ comment }) => (
-								<Comment comment={comment} actions={<Actions replyButtonText={replyButtonText}/>} />
+								<Comment comment={comment} menu={menu} actions={<Actions replyButtonText={replyButtonText}/>} />
 							),
 						}}
 					/>

@@ -6,6 +6,7 @@ import {
 	CommentsPost,
 	CommentsList,
 	type CommentsProviderProps,
+	CommentMenu,
 } from "./atom";
 
 export type CommentsProps = Omit<
@@ -21,6 +22,8 @@ interface InnerProps {
 	noCommentsMessage?: string;
 	replyButtonText?: string;
 	repliesButtonText?: string;
+	replyPlaceholder?: string;
+	replyToText?: string;
 
 	/**
 	 * title to show when the user has not logged in.
@@ -31,6 +34,8 @@ interface InnerProps {
 	titleUnauthorized?: ReactNode;
 
 	editor?: ComponentProps<typeof CommentsPost>;
+
+	menu?: ComponentProps<typeof CommentMenu>;
 }
 
 export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
@@ -48,6 +53,8 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 			noCommentsMessage,
 			replyButtonText,
 			repliesButtonText,
+			replyPlaceholder,
+			replyToText,
 			...props
 		},
 		ref,
@@ -70,12 +77,14 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 				>
 					<div className="relative flex flex-col gap-2">
 						{title}
-						<CommentsPost {...editor} />
+						<CommentsPost placeholder={placeholder}/>
 					</div>
 					<CommentsList
 						noCommentsMessage={noCommentsMessage}
 						replyButtonText={replyButtonText}
 						repliesButtonText={repliesButtonText}
+						replyPlaceholder={replyPlaceholder}
+						replyToText={replyToText}
 						/>
 				</div>
 			</CommentsProvider>

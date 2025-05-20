@@ -25,11 +25,13 @@ export function ReplyForm({
 	editorRef,
 	onCancel,
 	comment,
+	placeholder = "Reply to comment",
 	...props
 }: HTMLAttributes<HTMLFormElement> & {
 	comment: SerializedComment;
 	onCancel?: () => void;
 	editorRef: RefObject<UseCommentEditor | undefined>;
+	placeholder?: string;
 }): ReactNode {
 	const [isEmpty, setIsEmpty] = useState(true);
 	const { fetcher } = useCommentsContext();
@@ -86,7 +88,7 @@ export function ReplyForm({
 				}, [])}
 				onEscape={onCancel}
 				onSubmit={submit}
-				placeholder="Reply to comment"
+				placeholder={placeholder}
 			>
 				<button
 					aria-label="Reply"
