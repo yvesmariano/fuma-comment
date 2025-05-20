@@ -21,6 +21,8 @@ interface InnerProps {
 	noCommentsMessage?: string;
 	replyButtonText?: string;
 	repliesButtonText?: string;
+	replyPlaceholder?: string;
+	replyToText?: string;
 
 	/**
 	 * title to show when the user has not logged in.
@@ -48,6 +50,8 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 			noCommentsMessage,
 			replyButtonText,
 			repliesButtonText,
+			replyPlaceholder,
+			replyToText,
 			...props
 		},
 		ref,
@@ -76,6 +80,8 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 						noCommentsMessage={noCommentsMessage}
 						replyButtonText={replyButtonText}
 						repliesButtonText={repliesButtonText}
+						replyPlaceholder={replyPlaceholder}
+						replyToText={replyToText}
 						/>
 				</div>
 			</CommentsProvider>

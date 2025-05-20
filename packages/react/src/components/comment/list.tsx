@@ -33,17 +33,31 @@ export interface CommentListProps extends ComponentProps<"div"> {
 			comment: SerializedComment;
 			replyButtonText?: string;
 			repliesButtonText?: string;
+			replyPlaceholder?: string;
+			replyToText?: string;
 		}>;
 	};
 	noCommentsMessage?: string;
 	replyButtonText?: string;
 	repliesButtonText?: string;
+	replyPlaceholder?: string;
+	replyToText?: string;
 }
 
 const defaultComponents: Required<Required<CommentListProps>["components"]> = {
-	Comment: ({ comment, replyButtonText, repliesButtonText }) => (
-		<Comment comment={comment} actions={<Actions canReply replyButtonText={replyButtonText} />}>
-			<Replies repliesButtonText={repliesButtonText} replyButtonText={replyButtonText}/>
+	Comment: ({ comment, replyButtonText, repliesButtonText, replyPlaceholder, replyToText }) => (
+		<Comment comment={comment} actions={
+			<Actions
+				canReply
+				replyButtonText={replyButtonText}
+				replyPlaceholder={replyPlaceholder}
+				replyToText={replyToText}
+			/>
+		}>
+			<Replies
+				repliesButtonText={repliesButtonText}
+				replyButtonText={replyButtonText}
+			/>
 		</Comment>
 	),
 };
@@ -56,6 +70,8 @@ export function CommentList({
 	noCommentsMessage = "No comments",
 	repliesButtonText = "Replies",
 	replyButtonText = "Reply",
+	replyPlaceholder,
+	replyToText,
 	...props
 }: CommentListProps) {
 	const { page, fetcher } = useCommentsContext();
