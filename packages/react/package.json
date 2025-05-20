@@ -1,6 +1,6 @@
 {
 	"name": "@yvesmariano/fuma-comment-react",
-	"version": "1.2.5",
+	"version": "1.2.6",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"author": "Fuma Nama",

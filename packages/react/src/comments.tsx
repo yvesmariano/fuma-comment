@@ -49,6 +49,7 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 			mention,
 			auth,
 			apiUrl,
+			menu,
 			placeholder,
 			noCommentsMessage,
 			replyButtonText,
@@ -80,6 +81,7 @@ export const Comments = forwardRef<HTMLDivElement, CommentsProps>(
 						<CommentsPost placeholder={placeholder}/>
 					</div>
 					<CommentsList
+						menu={menu}
 						noCommentsMessage={noCommentsMessage}
 						replyButtonText={replyButtonText}
 						repliesButtonText={repliesButtonText}

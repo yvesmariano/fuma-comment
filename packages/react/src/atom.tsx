@@ -6,6 +6,7 @@ import {
 	type HTMLAttributes,
 	forwardRef,
 	type ButtonHTMLAttributes,
+	ComponentProps,
 } from "react";
 import { CommentsProvider as Provider } from "./contexts/comments";
 import {
@@ -13,11 +14,12 @@ import {
 	type AuthOptions,
 	useAuthContext,
 } from "./contexts/auth";
-import { cn } from "./utils/cn";
-import { CreateForm } from "./components/comment/create-form";
-import { CommentList } from "./components/comment/list";
 import { type MentionOptions, MentionProvider } from "./contexts/mention";
 import { type StorageContext, StorageProvider } from "./contexts/storage";
+import { CommentMenu } from "./components/comment";
+import { CreateForm } from "./components/comment/create-form";
+import { CommentList } from "./components/comment/list";
+import { cn } from "./utils/cn";
 import { createFetcher } from "./utils/fetcher";
 
 export interface CommentsProviderProps {
@@ -79,16 +81,18 @@ export const CommentsPost = CreateForm;
 export const CommentsList = forwardRef<
 	HTMLDivElement,
 	HTMLAttributes<HTMLDivElement> & {
+		menu?: ComponentProps<typeof CommentMenu>;
 		noCommentsMessage?: string;
 		replyButtonText?: string;
 		repliesButtonText?: string;
 		replyPlaceholder?: string;
 		replyToText?: string;
 	}
->(({ className, noCommentsMessage, replyButtonText, repliesButtonText, replyPlaceholder, replyToText, ...props }, ref) => {
+>(({ className, menu, noCommentsMessage, replyButtonText, repliesButtonText, replyPlaceholder, replyToText, ...props }, ref) => {
 	return (
 		<div className={cn("flex flex-col", className)} ref={ref} {...props}>
 			<CommentList
+				menu={menu}
 				noCommentsMessage={noCommentsMessage}
 				replyButtonText={replyButtonText}
 				repliesButtonText={repliesButtonText}
@@ -116,5 +120,5 @@ export function AuthButton(
 	return signIn;
 }
 
-export { Comment, CommentMenu } from "./components/comment/index";
+export { Comment, CommentMenu } from "./components/comment";
 export { ContentRenderer } from "./components/comment/content-renderer";
