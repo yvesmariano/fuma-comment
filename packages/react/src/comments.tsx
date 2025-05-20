@@ -6,6 +6,7 @@ import {
 	CommentsPost,
 	CommentsList,
 	type CommentsProviderProps,
+	CommentMenu,
 } from "./atom";
 
 export type CommentsProps = Omit<
@@ -33,6 +34,8 @@ interface InnerProps {
 	titleUnauthorized?: ReactNode;
 
 	editor?: ComponentProps<typeof CommentsPost>;
+
+	menu?: ComponentProps<typeof CommentMenu>;
 }
 
 export const Comments = forwardRef<HTMLDivElement, CommentsProps>(

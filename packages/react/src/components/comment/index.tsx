@@ -40,11 +40,13 @@ import {
 export function Comment({
 	comment: cached,
 	actions,
+	menu,
 	children,
 	...props
 }: ComponentProps<"div"> & {
 	comment: SerializedComment;
 	actions?: ReactNode;
+	menu?: ComponentProps<typeof CommentMenu>;
 }): React.ReactElement {
 	const [isReply, setIsReply] = useState(false);
 	const editorRef = useRef<UseCommentEditor | undefined>(undefined);
@@ -81,7 +83,7 @@ export function Comment({
 						<span className="text-xs text-fc-muted-foreground">
 							<Timestamp timestamp={comment.timestamp} />
 						</span>
-						<CommentMenu className="ms-auto -my-2" />
+						<CommentMenu {...menu} className="ms-auto -my-2" />
 					</div>
 					<ContentRenderer content={comment.content} />
 					{actions}
@@ -92,10 +94,21 @@ export function Comment({
 	);
 }
 
-function CommentMenu({
+export function CommentMenu({
 	className,
+	editDialogTitle = "Edit Comment",
+	editDialogDescription = "Edit the content of your comment.",
+	editButtonText = "Edit",
+	copyButtonText = "Copy",
+	deleteButtonText = "Delete",
 	...props
-}: ButtonHTMLAttributes<HTMLButtonElement>): React.ReactNode {
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+	editDialogTitle?: string;
+	editDialogDescription?: string;
+	editButtonText?: string;
+	copyButtonText?: string;
+	deleteButtonText?: string;
+}): React.ReactNode {
 	const { session } = useAuthContext();
 	const [isEditing, setIsEditing] = useState(false);
 	const { comment, editorRef, isReplying } = useCommentContext();
@@ -137,9 +150,9 @@ function CommentMenu({
 	return (
 		<Dialog open={isEditing} onOpenChange={setIsEditing}>
 			<DialogContent>
-				<DialogTitle className="max-sm:sr-only">Edit Comment</DialogTitle>
+				<DialogTitle className="max-sm:sr-only">{editDialogTitle}</DialogTitle>
 				<DialogDescription className="max-sm:sr-only">
-					Edit the content of your comment.
+					{editDialogDescription}
 				</DialogDescription>
 				<EditForm onClose={() => setIsEditing(false)} />
 			</DialogContent>
@@ -167,12 +180,12 @@ function CommentMenu({
 					}}
 				>
 					<MenuItem onSelect={onCopy}>
-						Copy
+						{copyButtonText}
 						<CopyIcon />
 					</MenuItem>
 					{canEdit ? (
 						<MenuItem onSelect={onEdit}>
-							Edit
+							{editButtonText}
 							<PencilIcon />
 						</MenuItem>
 					) : null}
@@ -182,7 +195,7 @@ function CommentMenu({
 							onSelect={onDelete}
 							variant="destructive"
 						>
-							Delete
+							{deleteButtonText}
 							<Trash2Icon />
 						</MenuItem>
 					) : null}

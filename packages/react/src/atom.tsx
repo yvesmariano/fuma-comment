@@ -116,5 +116,5 @@ export function AuthButton(
 	return signIn;
 }
 
-export { Comment } from "./components/comment/index";
+export { Comment, CommentMenu } from "./components/comment/index";
 export { ContentRenderer } from "./components/comment/content-renderer";
